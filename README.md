@@ -118,6 +118,5 @@ xhost + && docker run --privileged -e DISPLAY=$DISPLAY -v /tmp:/tmp --rm openhor
 
 To run DustyNV's container:
 ```
-# xhost + then
-docker run --privileged -v /dev:/dev -e DISPLAY=$DISPLAY -v /tmp:/tmp --net=host --ipc=host --rm -ti openhorizon/dustyinference-tx2 bash -c "cd /jetson-inference/build/aarch64/bin && ./imagenet-camera"
+xhost + && docker run --privileged -v /dev:/dev -e DISPLAY=$DISPLAY -v /tmp:/tmp --net=host --ipc=host --rm -ti openhorizon/dustyinference-tx2 bash -c "cd /jetson-inference/build/aarch64/bin && ./imagenet-camera"
 ```
