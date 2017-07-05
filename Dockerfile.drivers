@@ -1,0 +1,17 @@
+FROM aarch64/ubuntu
+
+#AUTHOR bmwshop@gmail.com
+MAINTAINER nuculur@gmail.com
+
+# this is the base container for the Jetson TX2 board with drivers (but without cuda)
+
+#COPY *.sh /tmp/
+RUN apt-get update && apt-get install -y bzip2 curl unp sudo
+
+WORKDIR /tmp
+RUN curl -s http://AFED.http.sjc01.cdn.softlayer.net/jetpack3.0/Tegra186_Linux_R27.1.0_aarch64.tbz2 | tar --use-compress-prog=bzip2 -xv
+
+RUN /tmp/Linux_for_Tegra/apply_binaries.sh -r /
+
+#RUN rm -fr /tmp/*
+#RUN apt-get clean

@@ -1,0 +1,38 @@
+FROM aarch64/ubuntu
+
+#AUTHOR bmwshop@gmail.com
+MAINTAINER nuculur@gmail.com
+# this is the base container for the Jetson TX2 board with drivers (but without cuda)
+
+#COPY *.sh /tmp/
+RUN apt-get update && apt-get install -y bzip2 curl unp sudo
+
+
+WORKDIR /tmp
+
+# drivers first
+RUN curl -s http://AFED.http.sjc01.cdn.softlayer.net/jetpack3.0/Tegra186_Linux_R27.1.0_aarch64.tbz2 | tar --use-compress-prog=bzip2 -xv
+
+
+RUN /tmp/Linux_for_Tegra/apply_binaries.sh -r /
+RUN  rm -fr /tmp/*
+
+# now pull the rest of the jetpack
+# COPY *.sh /tmp/
+
+RUN curl http://AFED.http.sjc01.cdn.softlayer.net/jetpack3.0/cuda-repo-l4t-8-0-local_8.0.64-1_arm64.deb -so /tmp/cuda-repo-l4t-8-0-local_8.0.64-1_arm64.deb
+RUN curl http://AFED.http.sjc01.cdn.softlayer.net/jetpack3.0/libcudnn5-dev_5.1.10-1+cuda8.0_arm64.deb -so /tmp/libcudnn5-dev_5.1.10-1+cuda8.0_arm64.deb
+RUN curl http://AFED.http.sjc01.cdn.softlayer.net/jetpack3.0/libcudnn5_5.1.10-1+cuda8.0_arm64.deb -so /tmp/libcudnn5_5.1.10-1+cuda8.0_arm64.deb
+
+RUN dpkg -i /tmp/cuda-repo-l4t-8-0-local_8.0.64-1_arm64.deb
+RUN apt-get update
+RUN apt-get install -y cuda-toolkit-8.0
+RUN dpkg -i /tmp/libcudnn5_5.1.10-1+cuda8.0_arm64.deb
+RUN dpkg -i /tmp/libcudnn5-dev_5.1.10-1+cuda8.0_arm64.deb
+ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/aarch64-linux-gnu/tegra
+
+# D.R. -- got to do this for some strange reason (for jetson tx2)
+RUN ln -s /usr/lib/aarch64-linux-gnu/libcuda.so /usr/lib/aarch64-linux-gnu/libcuda.so.1
+RUN rm -fr /tmp/*
+RUN apt-get clean
+
