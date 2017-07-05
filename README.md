@@ -1,6 +1,6 @@
 Many thanks to Dima Rekesh, PhD who is the original author of these builds and write-up.
 
-### For initial setup instructions, visit the [wiki Home](https://github.com/open-horizon/cogwerx-jetson-tx2/wiki)
+### For initial Jetson hardware setup instructions, visit the [wiki Home](https://github.com/open-horizon/cogwerx-jetson-tx2/wiki)
 
 ### Docker build instructions and files for deep learning container images
 * Jetson TX2 (base)
